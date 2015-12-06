@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="rn">
+<head>
+	<meta charset="utf-8">
+	<title>myFanQie</title>
+	
+	<style>
+	/*
+	var noGray = "rgb(154,169,166)",  //灰色
+	aPurple = "rgb(135,65,167)",  //紫色
+	
+	aBlack = "rgb(39,56,74)" ,  // 黑色
+	aOrange = "rgb(220,105,26)" , //橘色
+	tGreen = "rgb(31,177,140)",  //绿色
+	aRed = "rgb(210,84,0)",
+	aBlue = "rgb(32,107,170)", // 蓝色2
+	tBlue = "rgba(67,67,186)"
+	*/
+
+		*{
+			margin: 0;
+			padding: 0;			
+		}
+
+		body{
+			background-color:rgb(67,67,186);
+		}
+
+		.aGreen{
+			background-color:rgb(69,178,110);
+
+		}
+		
+
+		#iClock{
+			width: 300px;
+			height: 300px;
+			border:solid 20px rgba(255,255,255,0.4);
+			position: relative;
+			margin: 0 auto;
+			border-radius: 170px
+		}
+
+		#clockBack{
+			width: 300px;
+			height: 300px;
+			border-radius: 150px;
+			z-index:1;
+			background-color: white;
+		}
+
+		#timeline{
+			width: 124px;
+			height: 248px;
+			border-left:solid 26px rgba(67,67,186,0.7);
+			border-top:solid 26px rgba(67,67,186,0.7);
+			border-bottom:solid 26px rgba(67,67,186,0.7);
+			border-bottom-left-radius: 150px;
+			border-top-left-radius: 150px;
+			position : absolute;
+			top  : 0;
+			left : 0;
+			transform-origin: 100% 50% ; /* 定义旋转的 基点 */
+			z-index:2;
+		}
+		#timeline2{
+
+			width: 124px;
+			height: 248px;
+			border-left:solid 26px rgba(67,67,186,0.15);
+			border-top:solid 26px rgba(67,67,186,0.15);
+			border-bottom:solid 26px rgba(67,67,186,0.15);
+			border-bottom-left-radius: 150px;
+			border-top-left-radius: 150px;
+			position : absolute;
+			top  : 0;
+			left : 0;
+			transform-origin: 100% 50% ; /* 定义旋转的 基点 */
+			z-index:3;
+
+		}
+
+
+		#mask1{
+			width:  124px;
+			height:248px;
+
+			border-right:solid 26px white;
+			border-top:solid 26px white;
+			border-bottom:solid 26px white;
+			border-bottom-right-radius: 150px;
+			border-top-right-radius: 150px;
+
+			left: 50%;
+			position: absolute;
+
+			transform-origin: 0 50%; /* 定义旋转的 基点 */
+
+			z-index: 3;
+		}
+		#mask2{
+			width:  124px;
+			height: 248px;
+
+			border-right:solid 26px white;
+			border-top:solid 26px white;
+			border-bottom:solid 26px white;
+			border-bottom-right-radius: 150px;
+			border-top-right-radius: 150px;
+
+			left: 50%;
+			position: absolute;
+
+			transform-origin: 50% 100% ; /* 定义旋转的 基点 */
+			z-index: 4;
+		}
+
+
+		#hourPoint{
+			width: 6px;
+			height: 60px;
+			background-color: gray;
+			margin-left: -3px;
+			position: absolute;
+			left: 50%;
+			top:30%;
+
+			transform-origin:50% 100%;
+		}
+
+		#minutePoint{
+			width: 4px;
+			height: 90px;
+			background-color: gray;
+			margin-left: -2px;
+			position: absolute;
+			left: 50%;
+			top:20%;
+
+			transform-origin:50% 100%;
+		}
+		#secondPoint{
+
+			width: 2px;
+			height: 120px;
+			background-color: red;
+			margin-left: -1px;
+			position: absolute;
+			left: 50%;
+			top:10%;
+
+			transform-origin:50% 100%;
+
+		}
+		#start{
+			color: white;
+			text-align: center;
+			font-size: 30px;
+			font-family: serif;
+			margin-top:20px;
+		}
+		#inputTask{
+			width: 260px;
+			height: 30px;
+			display: block;
+			margin: 20px auto;
+		}
+		#name{
+			text-align: center;
+			font-size: 44px;
+			margin: 20px auto;
+
+			color:rgba(255,255,255,0.2);
+		}
+		#targetCricle{
+
+			width: 20px;
+			height:20px;
+			border:4px solid white;
+			border-radius: 15px;
+			background-color: darkgray;
+			position: absolute;
+			left: 50%;
+			margin: -10px;
+			transform-origin: 0 -160px;
+		}
+
+		.posLine{
+			z-index: 6;
+
+			width: 8px;
+			margin-left:-4px; 
+			height: 20px;
+			background-color: black
+		}
+		#pTop{
+			position: absolute;
+			left: 50%;
+			top:0;
+
+		}
+		#pBottom{
+			position: absolute;
+			left: 50%;
+			top:280px;
+		}
+
+		#pLeft{
+			position: absolute;
+			left: 10px;
+			top: 140px;
+
+			transform:rotate(90deg);
+			-webkit-transform:rotate(90deg);
+		}
+		#pRight{
+			position: absolute;
+			left: 290px;
+			top: 140px;
+
+			transform:rotate(90deg);
+			-webkit-transform:rotate(90deg);
+		}
+
+		#timeline,#timeline2,#targetCricle{
+			display: none;
+		}
+
+	</style>
+
+	<script src="./jquery.min.js"></script>
+
+
+</head>
+<body>
+
+	<div>
+	<div id="name">坚持一下 努力一点</div>
+
+			<div id="iClock" title="none"> <!-- 这个 就是最外面的 -->
+
+
+		    	<div id="clockBack">  <!-- 灰色的底 -->
+
+		    		<div id="mask1" ></div> <!-- 第一个遮罩 用来完成倒数 -->
+		    		<div id="mask2" ></div> <!-- 第二个遮罩 用来完成控制时间线 比如以30分钟为基础的减少 25 20 -->
+		    		<div id="timeline2" ></div>
+		    		<div id="timeline" ></div>  <!-- 时间线圈 -->
+
+		    		
+
+		    	</div>
+
+		    	<div id="hourPoint">
+		    	</div>
+		    	<div id="minutePoint">
+		    	</div>
+		    	<div id="secondPoint">
+		    	</div>
+
+		    	<div id="pTop" class="posLine"></div>
+		    	<div id="pBottom" class="posLine"></div>
+		    	<div id="pLeft" class="posLine"></div>
+		    	<div id="pRight" class="posLine"></div>
+
+			</div>
+	<div id="targetCricle"></div>		
+
+	</div>
+	
+	
+
+
+
+	<script>
+
+
+		$("#iClock").click(function(){
+
+			var e = window.event || arguments[0];
+			var eTarget = e.target || e.srcElement;
+
+			if(eTarget.getAttribute("id") == "iClock"){
+				alert("cnmb");
+
+				if(eTarget.getAttribute("title") == "none" ){
+					eTarget.setAttribute("title","working");
+
+					$("#timeline").css("display","block");
+					$("#timeline2").css("display","block");
+					$("#targetCricle").css("display","block")
+
+					var timeDate = new Date();	
+					var nowTime = {
+							h : timeDate.getHours(),
+							m : timeDate.getMinutes(),
+							s : timeDate.getSeconds()
+						}
+					var baseTime = nowTime.m;
+					var targetTime = nowTime.m +30 ;
+					if(targetTime > 60){
+						targetTime = targetTime - 60;
+					}
+
+					console.log(baseTime);	
+					var transM =  "rotate("+( nowTime.m / 60 *360 + 180 )+"deg)";
+					
+					$("#clockBack").css("webkitTransform",transM);
+
+					var targetTrans = "rotate(" + ( nowTime.m/ 60 * 360  ) + "deg)";	
+					$("#targetCricle").css("-webkit-transform",targetTrans );
+
+					// 以上 就是先 找到 需要的 时间线 
+					ui(); 
+
+
+
+				}else if(eTarget.getAttribute("title") == "working"){
+
+					eTarget.setAttribute("title","none");
+
+					$("#clockBack").css("webkitTransform","rotate(0deg)");
+
+					$("#timeline").css("display","none");
+					$("#timeline2").css("display","none");
+					$("#targetCricle").css("display","none")
+
+
+				}else{
+					console.log("error in Line303")
+				}
+				
+
+
+
+			}
+			
+
+			// 接下来 就可以开始倒计时了
+			function ui(){  // 负责写ui的函数
+
+				var timeDate = new Date();	
+				var nowTime = {
+						h : timeDate.getHours(),
+						m : timeDate.getMinutes(),
+						s : timeDate.getSeconds()
+					}
+			
+				console.log(nowTime.m - baseTime );
+
+				var transN = "rotate("+ ( (nowTime.m - baseTime) / 60 * 360 )+"deg)";
+
+				$("#mask1").css("webkitTransform",transN);
+
+				if (nowTime.m === targetTime ){
+					alert("it is end");
+					clearTimeout(seet)
+				}
+
+				var seet = setTimeout(ui, 100);
+			};
+
+			
+
+		
+
+
+
+
+		});
+
+		// 接下来这个就是 让指针一直在转
+		var rotateTime = function(){
+
+			var timeDate = new Date();	
+			var nowTime = {
+					h : timeDate.getHours(),
+					m : timeDate.getMinutes(),
+					s : timeDate.getSeconds()
+				};
+			var hourTrans = "rotate(" + ( nowTime.h / 12 * 360 ) + "deg)";	
+			$("#hourPoint").css("-webkit-transform",hourTrans);
+
+			console.log(nowTime.m)
+
+			var minuteTrans = "rotate(" + ( nowTime.m / 60 * 360 ) + "deg)";	
+			$("#minutePoint").css("-webkit-transform",minuteTrans);
+
+			var secondTrans = "rotate(" + ( nowTime.s/ 60 * 360 ) + "deg)";	
+			$("#secondPoint").css("-webkit-transform",secondTrans);
+
+			
+			setTimeout(rotateTime,100) // 这样的调用方法是不科学的吧  我记得书里面讲过了 不直接用名字 最好 
+		};
+		rotateTime();
+
+
+
+	</script>
+	
+</body>
+</html>
